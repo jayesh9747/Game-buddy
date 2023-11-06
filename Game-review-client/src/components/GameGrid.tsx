@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import apiClient from "../services/api-service";
-
+import useGames from "../hooks/useGame";
 interface Games {
   id: number;
   name: string;
@@ -12,17 +10,7 @@ interface ArrayofGames {
 }
 
 const GameGrid = () => {
-  const [GameArray, setGameArray] = useState<Games[]>([]);
-  const [error, seterror] = useState("");
-
-  useEffect(() => {
-    apiClient
-      .get<ArrayofGames>("/games")
-      .then((res) => {
-        setGameArray(res.data.results);
-      })
-      .catch((err) => seterror(err.message));
-  });
+  const { error, GameArray } = useGames();
   return (
     <>
       {error && <p className="text-danger">{error}</p>}
